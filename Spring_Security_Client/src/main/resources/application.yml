@@ -1,0 +1,38 @@
+server:
+  port: 8080
+
+
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/user_registration
+    username: root
+    password: Abhi@12345
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+
+  security:
+    oauth2:
+      client:
+        registration:
+          api-client-oidc:
+            provider: spring
+            client-id: api-client
+            client-secret: secret
+            authorization-grant-type: authorization_code
+            scope: openid
+            redirect-uri: "http://127.0.0.1:8080/login/oauth2/code/{registrationId}"
+            client-name: api-client-oidc
+          api-client-authorization-code:
+            provider: spring
+            client-id: api-client
+            client-secret: secret
+            authorization-grant-type: authorization_code
+            scope: api.read
+            redirect-uri: "http://127.0.0.1:8080/authorized"
+            client-name: api-client-authorization-code
+        provider :
+          spring:
+            issue-uri: http://auth-server:9000
